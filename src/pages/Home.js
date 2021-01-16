@@ -7,8 +7,8 @@ const Home = () => {
   return (
     <div className="flex items-center">
       <Link to={`/room/${roomId}`}>
-        <Button variant="outlined" color="primary">
-          Join room {roomId}
+        <Button variant="contained" color="secondary" size="large">
+          Create Room
         </Button>
       </Link>
     </div>

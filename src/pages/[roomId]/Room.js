@@ -18,7 +18,7 @@ const Room = () => {
         <h1> Currently in room: {roomId}</h1>
       </div>
       <Link to="/">
-        <Button variant="outlined" color="secondary">
+        <Button variant="contained" color="secondary" size="large">
           Home
         </Button>
       </Link>
