@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { memo, useRef, useLayoutEffect } from "react";
-import usePrevious from "../hooks/usePrevious";
+import React, { memo, useRef, useLayoutEffect } from 'react';
+import usePrevious from '../hooks/usePrevious';
 
 export function SingleOTPInputComponent(props) {
   const { focus, autoFocus, ...rest } = props;
