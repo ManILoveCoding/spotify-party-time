@@ -9,7 +9,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Grid
         container
-        spacing={0}
+        spacing={4}
         direction="column"
         alignItems="center"
         justify="center"
