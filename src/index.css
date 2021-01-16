@@ -2,8 +2,6 @@ html,
 body,
 body > div {
   height: 100%;
-  margin: 10px;
-  padding: 10px;
   background-color: black;
   color: ghostwhite;
 }
