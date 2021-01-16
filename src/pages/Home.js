@@ -1,16 +1,17 @@
-import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
-import { useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 
 const Home = () => {
-  useEffect(() => {
-    console.log("In home page");
-  });
+  var roomId = Math.random().toString(36).substring(7);
 
   return (
-    <Link to="/room">
-      <Button variant="outlined">Join room</Button>
-    </Link>
+    <div className="flex items-center">
+      <Link to={`/room/${roomId}`}>
+        <Button variant="outlined" color="primary">
+          Join room {roomId}
+        </Button>
+      </Link>
+    </div>
   );
 };
 

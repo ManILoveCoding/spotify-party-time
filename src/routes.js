@@ -1,12 +1,12 @@
-import React from "react";
-import { Switch, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Room from "./pages/Room";
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Room from './pages/[roomId]/Room';
 
 const Routes = () => {
   return (
     <Switch>
-      <Route path="/room">
+      <Route path="/room/*">
         <Room />
       </Route>
       <Route path="/">
