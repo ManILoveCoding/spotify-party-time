@@ -70,11 +70,12 @@ const Home = () => {
             size="large"
             color="primary"
             variant="outlined"
+            className="button"
             onClick={() => {
               setJoiningRoom(true);
             }}>
-            <Typography variant="body2" style={{ fontWeight: '900' }}>
-              JOIN AN EXISTING ROOM
+            <Typography variant="body2" style={{ fontWeight: '900', fontSize: '20px' }}>
+              Join an existing room
             </Typography>
           </Button>
         )}
