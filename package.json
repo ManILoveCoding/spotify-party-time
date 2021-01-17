@@ -13,21 +13,13 @@
     "autoprefixer": "^9",
     "firebase": "^8.2.3",
     "axios": "^0.21.1",
-<<<<<<< Updated upstream
     "material-ui-search-bar": "^1.0.0",
-=======
-    "express": "^4.17.1",
->>>>>>> Stashed changes
     "prettier": "^2.2.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
-<<<<<<< Updated upstream
     "use-debounce": "^5.2.0",
-=======
-    "spotify-web-api-node": "^5.0.0",
->>>>>>> Stashed changes
     "web-vitals": "^0.2.4"
   },
   "scripts": {
