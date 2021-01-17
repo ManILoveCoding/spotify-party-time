@@ -16,6 +16,7 @@ const redirectUrl = 'http://localhost:3000/create-room';
 const CreateRoom = () => {
   const [code, setCode] = useState('');
   const [accessCode, setAccessCode] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
     let url = window.location.href;
@@ -25,14 +26,35 @@ const CreateRoom = () => {
 
     // get access code
     getAccessCode();
-    if (accessCode != undefined || accessCode != '') {
+    if (accessCode != undefined && accessCode != '') {
       console.log(accessCode);
+      console.log('here');
       // get user info with access code
+      // getUserInfo();
+
       // sign user in firestore
-      // wait for user enter room id
+
+      // generate room id
+      let roomId = generateRoomId();
       // load user to room.jsx
+      history.push(`/room/${roomId}?access-code=${accessCode}`);
     }
   });
+
+  const generateRoomId = () => {
+    let roomIdNum = Math.floor(Math.random() * 1000000);
+    return String(roomIdNum);
+  };
+
+  const getUserInfo = () => {
+    axios('https://api.spotify.com/v1/me', {
+      headers: {
+        Authorization: 'Bearer ' + accessCode,
+      },
+    }).then((res) => {
+      console.log(res);
+    });
+  };
 
   const getAccessCode = () => {
     var url = 'https://accounts.spotify.com/api/token';
@@ -44,7 +66,6 @@ const CreateRoom = () => {
 
     xhr.onreadystatechange = function () {
       if (xhr.readyState === 4) {
-        console.log(xhr.status);
         let start = xhr.responseText.search(':');
         let end = xhr.responseText.search(',');
         let code = xhr.responseText.substr(start + 2, end - start - 3);
