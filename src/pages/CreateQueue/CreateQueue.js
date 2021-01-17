@@ -9,6 +9,8 @@ function  CreateQueue(props) {
 
     const [ error, setError ] = useState();
 
+
+    //creates a new queue collection by calling the createQueue function from firestore.js, passing the text input of the user and generating a new id for them. (i think, im not really sure what step initializes the userId honestly)
     function createQueue(e) {
         e.preventDefault();
         setError(null);

@@ -57,9 +57,13 @@ function App() {
     .catch(() => setError('queue-get-fail'));
   }*/
 
+
+  //if queue and user are initiliazed, it renders the EditQueue.js page
   if(queue&& user) {
     return <EditQueue {...{ queueId, user, onCloseQueue, userId}}></EditQueue>;
-  }/* else if(queue) {
+  }
+  
+  /* else if(queue) {
     return (
       <div>
         <ErrorMessage errorCode={error}></ErrorMessage>
@@ -67,6 +71,8 @@ function App() {
       </div>
     );
   }*/
+
+  //else it renders the CreateQueue.js page
   return (
     <div>
       <ErrorMessage errorCode={error}></ErrorMessage>
