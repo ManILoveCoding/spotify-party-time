@@ -10,7 +10,7 @@ const Room = () => {
   const inputRef = useRef();
   let location = useLocation();
   var [roomId, setRoomId] = useState(null);
-  var [currentSongId, setCurrentSongId] = useState('2Lt2OCMsNF0DefG5H1NOqc');
+  var [currentSong, setCurrentSong] = useState('2Lt2OCMsNF0DefG5H1NOqc');
 
   // after "page" component loads, check location
   useEffect(() => {
@@ -18,10 +18,6 @@ const Room = () => {
       setRoomId(location.pathname.split('/')[2]);
     }
   }, [location]);
-
-  const handleSongSelection = (song) => {
-    setCurrentSongId(song.id);
-  };
 
   return (
     <>
@@ -33,13 +29,13 @@ const Room = () => {
           style={{ height: '40px', width: '350px', fontSize: '15px' }}
           ref={inputRef}
           onSelect={(song) => {
-            handleSongSelection(song);
+            setCurrentSong(song);
           }}
           placeholder="Search for song..."
         />
       </Grid>
       <Grid item>
-        <WebPlayer songId={currentSongId} />
+        <WebPlayer songId={currentSong.id} />
       </Grid>
 
       <QueueList roomId={roomId} />

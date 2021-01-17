@@ -11,8 +11,8 @@
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.10.2",
     "autoprefixer": "^9",
-    "firebase": "^8.2.3",
     "axios": "^0.21.1",
+    "firebase": "^8.2.3",
     "material-ui-search-bar": "^1.0.0",
     "prettier": "^2.2.1",
     "react": "^17.0.1",
@@ -40,6 +40,14 @@
     "jsxBracketSameLine": true,
     "singleQuote": true
   },
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ]
+  ],
   "browserslist": {
     "production": [
       ">0.2%",
