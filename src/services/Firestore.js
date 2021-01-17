@@ -16,10 +16,12 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+
+//observer registered in the onAuthStateChanged triggers, users accout data can be accessed from User object (which we do in App.js)
 export const authenticateAnonymously = () => {
     return firebase.auth().signInAnonymously();
 };
-
+//creates a new queue collection in the database with time created, user name of creator, and user ID of creator as items
 export const createQueue = (userName, userId)=>{
     return db.collection('queues')
     .add({
@@ -33,12 +35,14 @@ export const createQueue = (userName, userId)=>{
     });
 };
 
+//returns ID of queue
 export const getQueue = queueId => {
     return db.collection('queues')
     .doc(queueId)
     .get();
 };
 
+//returns collection 'songs' in a given queue
 export const getQueuedSongs = queueId=> {
     return db.collection('queues')
     .doc(queueId)
@@ -46,6 +50,7 @@ export const getQueuedSongs = queueId=> {
     .get();
 };
 
+//used by SongList.js to list the songs in a queue
 export const streamQueuedSongs = (queueId, observer) => {
     return db.collection('queues')
     .doc(queueId)
@@ -54,13 +59,14 @@ export const streamQueuedSongs = (queueId, observer) => {
     .onSnapshot(observer);
 };
 
+//unused function
 export const getUsers = queueId => {
     return db.collection('queues')
     .doc(queueId)
     .collection('users')
     .get();
 }
-
+//unused function
 export const streamUsersInQueue = (queueId, observer) => {
     return db.collection('queues')
     .doc(queueId)
@@ -68,7 +74,7 @@ export const streamUsersInQueue = (queueId, observer) => {
     .orderBy('joined')
     .onSnapshot(observer);
 };
-
+//unused function
 export const addUserToQueue = (userName, queueId, userId) => {
     return getUsers(queueId)
         .then(querySnapshot =>querySnapshot.docs)
@@ -87,7 +93,7 @@ export const addUserToQueue = (userName, queueId, userId) => {
             throw new Error('duplicate-user-error');
         });
 };
-
+//adds string song to the collection songs, with ID of user who added it as an item, and a timestamp
 export const addSongToQueue = (song, queueId, userId) => {
     return getQueuedSongs(queueId)
         .then(querySnapshot => querySnapshot.docs)
