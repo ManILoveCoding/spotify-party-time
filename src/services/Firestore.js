@@ -35,6 +35,7 @@ export const createRoom = (userName, userId)=>{
     });
 };
 
+
 //returns ID of room
 export const getRoom = roomId => {
     return db.collection('rooms')
