@@ -42,7 +42,8 @@ const CreateRoom = () => {
   });
 
   const generateRoomId = () => {
-    return '123456';
+    let roomIdNum = Math.floor(Math.random() * 1000000);
+    return String(roomIdNum);
   };
 
   const getUserInfo = () => {
