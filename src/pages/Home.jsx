@@ -63,6 +63,12 @@ const Home = () => {
         scope: scopes,
       },
     });
+    //testval1 is userName, testval2 is userId
+    var randId = Math.floor(100000 + Math.random() * 900000);
+    FirestoreService.createRoom("testval1", "testval2", randId);
+    //123000 replaced by some kind of unique pin generated from the user
+    history.push(`/room/${randId}`);
+
   };
 
   const [joiningRoom, setJoiningRoom] = useState(false);

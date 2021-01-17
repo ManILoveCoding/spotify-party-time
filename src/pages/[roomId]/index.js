@@ -6,9 +6,13 @@ import WebPlayer from '../../components/webplayer';
 import QueueList from '../../components/queue-list';
 import SearchBar from '../../components/searchbar';
 import * as FirestoreService from '../../services/Firestore';
+import useQueryString from '../../hooks/useQueryString';
+import Typography from '@material-ui/core/Typography';
 
 const Room = () => {
   const inputRef = useRef();
+
+
   let location = useLocation();
   var [roomId, setRoomId] = useState(null);
   var [currentSong, setCurrentSong] = useState('2Lt2OCMsNF0DefG5H1NOqc');
@@ -16,9 +20,11 @@ const Room = () => {
   // after "page" component loads, check location
   useEffect(() => {
     if (location) {
-      setRoomId(location.pathname.split('/')[2]);
-    }
-  }, [location]);
+       setRoomId(location.pathname.split('/')[2]);
+     }
+   }, [location]);
+
+
 
   const handleSongSelection = (song) => {
     setCurrentSong(song.id);
@@ -29,6 +35,21 @@ const Room = () => {
     <>
       <Grid item>
         <h1> Currently in room: {roomId}</h1>
+      </Grid>
+      <Grid item>
+        <Button
+            size="large"
+            color="primary"
+            variant="outlined"
+            className="button"
+            onClick={() => {
+              FirestoreService.getRoom(roomId);
+              FirestoreService.addSongToRoom('test', roomId);
+            }}>
+            <Typography variant="body2" style={{ fontWeight: '900', fontSize: '20px' }}>
+              Test Button
+            </Typography>
+        </Button>
       </Grid>
       <Grid item>
         <SearchBar

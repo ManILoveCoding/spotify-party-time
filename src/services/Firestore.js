@@ -22,51 +22,74 @@ export const authenticateAnonymously = () => {
     return firebase.auth().signInAnonymously();
 };
 //creates a new room collection in the database with time created, user name of creator, and user ID of creator as items
-export const createRoom = (userName, userId)=>{
+export const createRoom = (userName, userId, roomId)=>{
     return db.collection('rooms')
     .add({
         created: firebase.firestore.FieldValue.serverTimestamp(),
         createdBy: userId,
         owner: userName,
-        /*users: [{
-            userId: userId,
-            name: userName
-        }]*/
+        roomNo: roomId
     });
 };
 
-
 //returns ID of room
+//TODO Make this return a string instead of not returning anything
 export const getRoom = roomId => {
-    return db.collection('rooms')
-    .doc(roomId)
-    .get();
+    let id = parseInt(roomId);
+    db.collection("rooms").where("roomNo", "==", id)
+    .get()
+    .then(function(querySnapshot){
+        querySnapshot.forEach(function(doc) {
+            let room = doc.id;
+            console.log(room);
+            console.log(doc.id, " => ", doc.data());
+            return room;
+        });
+    })
 };
 
 //returns collection 'songs' in a given room
 export const getRoomSongs = roomId=> {
-    return db.collection('rooms')
-    .doc(roomId)
-    .collection('songs')
-    .get();
+    return getRoom(roomId)
+    .then(getSongs => {
+        return db.collection('rooms').where("roomNo", "==", roomId).collection('songs').get()
+    });
 };
 
 //adds string song to the collection songs, with ID of user who added it as an item, and a timestamp
-export const addSongToRoom = (song, roomId, userId) => {
-    return getRoomSongs(roomId)
-        .then(querySnapshot => querySnapshot.docs)
-        .then(roomSongs => roomSongs.find(roomSong => roomSong.data().name.toLowerCase() === song.toLowerCase()))
-        .then(addSong => {
+export const addSongToRoom = (song, roomId) => {
 
-            return db.collection('rooms')
-            .doc(roomId)
-            .collection('songs')
-            .add({
-                name: song,
-                created: firebase.firestore.FieldValue.serverTimestamp(),
-                createdBy: userId
-            });
-        });
+    let room = getRoom(roomId);
+
+    return room.collection('songs').add({
+        name: song
+    })
+    .then(() => {
+        return {result:'document updated'};
+    });
+
+    
+    // return doc
+    // .add({
+    //     name: song,
+    //     created: firebase.firestore.FieldValue.serverTimestamp()
+    // })
+    // .then(() => {
+    //     return {result: 'doc-updated' };
+    // });
+
+    
+    // return getRoomSongs(roomId)
+    //     .then(addSong => {
+
+    //         return db.collection('rooms').where("roomNo", "==", roomId)
+    //         .collection('songs')
+    //         .add({
+    //             name: song,
+    //             created: firebase.firestore.FieldValue.serverTimestamp(),
+    //             //createdBy: userId
+    //         });
+    //     });
 };
 
 
