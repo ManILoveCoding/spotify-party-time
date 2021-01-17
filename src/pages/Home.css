@@ -1,7 +1,8 @@
 @font-face {
+
   font-family: "spotify-circular";
-  src: local("spotify-circular"),
-    url(../fonts/CircularSpotifyTxT-Black.ttf) format("ttf");
+  src: local("spotify-circular"), url(../fonts/CircularSpotifyTxT-Black.ttf) format("ttf");
+
 }
 
 html body {
@@ -12,6 +13,7 @@ html body {
   margin: auto;
   text-align: center;
   margin-top: 300px;
+
 }
 
 .otpInput {
@@ -29,15 +31,16 @@ html body {
   outline: none !important;
 }
 
-.ButtonContainer {
-  margin-top: 150px;
-}
 
 .button {
-  font-family: "spotify-circular", Helvetica, Arial, sans-serif !important;
+  font-family: 'spotify-circular', Helvetica, Arial, sans-serif !important;
   font-weight: bold !important;
+  font-size: 25px;
   border-radius: 50px !important;
   padding: 15px 120px !important;
+  height: 75px;
+  width: 100%;
+  min-width: 400px;
 }
 
 .button:hover {
