@@ -1,10 +1,7 @@
-const WebPlayer = ({ songUri }) => {
-  var type = songUri.split(':')[1];
-  var id = songUri.split(':')[2];
-
+const WebPlayer = ({ songId }) => {
   return (
     <iframe
-      src={`https://open.spotify.com/embed/${type}/${id}`}
+      src={`https://open.spotify.com/embed/track/${songId}`}
       title="current song playing"
       width="360"
       height="80"

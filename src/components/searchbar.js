@@ -2,7 +2,7 @@ import { useState, forwardRef } from 'react';
 import useDebounce from '../utils/debounce';
 import useAxios from '../utils/axios';
 
-const SearchResult = ({ result: { artist, album, name, image, uri }, selected, ...rest }) => {
+const SearchResult = ({ result: { artist, album, name, image, id }, selected, ...rest }) => {
   return (
     <>
       <div
@@ -63,7 +63,7 @@ export default forwardRef(({ onSelect, access_token, ...rest }, ref) => {
         image: item['album']['images'][0]['url'],
         album: item['album']['name'],
         name: item['name'],
-        uri: item['uri'],
+        id: item['id'],
       });
     });
   }

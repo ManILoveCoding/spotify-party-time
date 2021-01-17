@@ -10,9 +10,7 @@ const Room = () => {
   const inputRef = useRef();
   let location = useLocation();
   var [roomId, setRoomId] = useState(null);
-  var [currentSongUri, setCurrentSongUri] = useState('spotify:track:2Lt2OCMsNF0DefG5H1NOqc');
-
-  // TODO: setCurrentSongUri from search bar
+  var [currentSongId, setCurrentSongId] = useState('2Lt2OCMsNF0DefG5H1NOqc');
 
   // after "page" component loads, check location
   useEffect(() => {
@@ -22,7 +20,7 @@ const Room = () => {
   }, [location]);
 
   const handleSongSelection = (song) => {
-    setCurrentSongUri(song.uri);
+    setCurrentSongId(song.id);
   };
 
   return (
@@ -41,7 +39,7 @@ const Room = () => {
         />
       </Grid>
       <Grid item>
-        <WebPlayer songUri={currentSongUri} />
+        <WebPlayer songId={currentSongId} />
       </Grid>
 
       <QueueList roomId={roomId} />
