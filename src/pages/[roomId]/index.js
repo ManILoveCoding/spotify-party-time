@@ -5,9 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import WebPlayer from '../../components/webplayer';
 import QueueList from '../../components/queue-list';
 import SearchBar from '../../components/searchbar';
+
 import * as FirestoreService from '../../services/Firestore';
 import useQueryString from '../../hooks/useQueryString';
 import Typography from '@material-ui/core/Typography';
+
+import getAccessCode from '../CreateRoom';
+
 
 const Room = () => {
   const inputRef = useRef();
@@ -15,21 +19,22 @@ const Room = () => {
 
   let location = useLocation();
   var [roomId, setRoomId] = useState(null);
+  var [access_token, setAccessToken] = useState('');
   var [currentSong, setCurrentSong] = useState('2Lt2OCMsNF0DefG5H1NOqc');
 
   // after "page" component loads, check location
   useEffect(() => {
     if (location) {
-       setRoomId(location.pathname.split('/')[2]);
-     }
-   }, [location]);
-
-
+      setRoomId(location.pathname.split('/')[2].split('?')[0]);
+      setAccessToken(location.pathname.split('/')[2].split('?')[1]);
+    }
+  }, [location]);
 
   const handleSongSelection = (song) => {
     setCurrentSong(song.id);
     FirestoreService.addSongToRoom(song.id, roomId);
   };
+
 
   return (
     <>
@@ -53,6 +58,7 @@ const Room = () => {
       </Grid>
       <Grid item>
         <SearchBar
+          access_token={access_token}
           style={{ height: '40px', width: '350px', fontSize: '15px' }}
           ref={inputRef}
           onSelect={(song) => {
@@ -61,8 +67,9 @@ const Room = () => {
           placeholder="Search for song..."
         />
       </Grid>
+
       <Grid item>
-        <WebPlayer songId={currentSong.id} />
+        <WebPlayer access_token={access_token} songId={currentSong.id} />
       </Grid>
 
       <QueueList roomId={roomId} />
