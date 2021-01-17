@@ -7,6 +7,7 @@ import OTPInput from '../components/otp-input';
 import './Home.css';
 import { createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';
+import * as FirestoreService from "../services/Firestore";
 
 const scopes = [
   'ugc-image-upload',

@@ -50,52 +50,6 @@ export const getRoomSongs = roomId=> {
     .get();
 };
 
-//used by SongList.js to list the songs in a room
-export const streamRoomSongs = (roomId, observer) => {
-    return db.collection('rooms')
-    .doc(roomId)
-    .collection('songs')
-    .orderBy('created')
-    .onSnapshot(observer);
-};
-
-//unused function
-export const getUsers = roomId => {
-    return db.collection('rooms')
-    .doc(roomId)
-    .collection('users')
-    .get();
-}
-
-//unused function
-export const streamUsersInroom = (roomId, observer) => {
-    return db.collection('rooms')
-    .doc(roomId)
-    .collection('users')
-    .orderBy('joined')
-    .onSnapshot(observer);
-};
-
-//unused function
-export const addUserToroom = (userName, roomId, userId) => {
-    return getUsers(roomId)
-        .then(querySnapshot =>querySnapshot.docs)
-        .then(usersInroom => usersInroom.find(user => user.data().userId === userName))
-        .then(matchingUser => {
-            if(!matchingUser) {
-                return db.collection('rooms')
-                    .doc(roomId)
-                    .collection('users')
-                    .add({
-                        userId: userId,
-                        name: userName,
-                        joined: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-            }
-            throw new Error('duplicate-user-error');
-        });
-};
-
 //adds string song to the collection songs, with ID of user who added it as an item, and a timestamp
 export const addSongToRoom = (song, roomId, userId) => {
     return getRoomSongs(roomId)
@@ -111,7 +65,6 @@ export const addSongToRoom = (song, roomId, userId) => {
                 created: firebase.firestore.FieldValue.serverTimestamp(),
                 createdBy: userId
             });
-
         });
 };
 

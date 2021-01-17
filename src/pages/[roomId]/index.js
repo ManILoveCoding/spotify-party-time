@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import WebPlayer from '../../components/webplayer';
 import QueueList from '../../components/queue-list';
 import SearchBar from '../../components/searchbar';
+import * as FirestoreService from '../../services/Firestore';
 
 const Room = () => {
   const inputRef = useRef();
@@ -18,6 +19,11 @@ const Room = () => {
       setRoomId(location.pathname.split('/')[2]);
     }
   }, [location]);
+
+  const handleSongSelection = (song) => {
+    setCurrentSong(song.id);
+    FirestoreService.addSongToRoom(song.id, roomId);
+  };
 
   return (
     <>
