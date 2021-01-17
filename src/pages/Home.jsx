@@ -89,7 +89,6 @@ const Home = () => {
       },
     },
   });
-  console.log('Room Created');
 
   return (
     <ThemeProvider theme={theme}>
