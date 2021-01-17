@@ -40,14 +40,6 @@
     "jsxBracketSameLine": true,
     "singleQuote": true
   },
-  "plugins": [
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ]
-  ],
   "browserslist": {
     "production": [
       ">0.2%",
