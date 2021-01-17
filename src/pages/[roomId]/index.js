@@ -10,8 +10,7 @@ const Room = () => {
   const inputRef = useRef();
   let location = useLocation();
   var [roomId, setRoomId] = useState(null);
-  var [currentSongUri, setCurrentSongUri] = useState('2Lt2OCMsNF0DefG5H1NOqc');
-  var [searchValue, setSearchValue] = useState('');
+  var [currentSongUri, setCurrentSongUri] = useState('spotify:track:2Lt2OCMsNF0DefG5H1NOqc');
 
   // TODO: setCurrentSongUri from search bar
 
@@ -22,12 +21,8 @@ const Room = () => {
     }
   }, [location]);
 
-  const handleSearch = (value) => {
-    console.log(value);
-  };
-
   const handleSongSelection = (song) => {
-    console.log(song, ' selceted');
+    setCurrentSongUri(song.uri);
   };
 
   return (

@@ -2,26 +2,29 @@ import { useState, forwardRef } from 'react';
 import useDebounce from '../utils/debounce';
 import useAxios from '../utils/axios';
 
-const SearchResult = ({ result: { artist, album, url }, selected, ...rest }) => {
+const SearchResult = ({ result: { artist, album, name, image, uri }, selected, ...rest }) => {
   return (
-    <div
-      style={{
-        diplay: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        padding: '0.5rem',
-        borderBottom: '1px',
-        borderColor: 'rgba(209, 213, 219, 1)',
-        overflow: 'hidden',
-        backgroundColor: selected ? 'rgba(249, 250, 251, 1)' : '',
-      }}
-      {...rest}>
-      <img alt="" style={{ width: '4rem', margin: '1rem' }} src={url} />
-      <span style={{ lineHeight: '1.375' }}>
-        <h3 style={{ fontWeight: '600' }}>{album}</h3>
-        <p style={{ opacity: '1', color: 'color: rgba(55, 65, 81, 1)' }}>{artist}</p>
-      </span>
-    </div>
+    <>
+      <div
+        {...rest}
+        style={{
+          alignItems: 'center',
+          cursor: 'pointer',
+          padding: '0.5rem',
+          border: 'solid darkslategrey',
+          borderWidth: '0 0 1px 0',
+          overflow: 'hidden',
+          backgroundColor: selected ? 'rgba(249, 250, 251, 1)' : '',
+          display: 'flex',
+        }}>
+        <img alt="" style={{ width: '6rem', margin: '0.5rem' }} src={image} />
+        <span style={{ lineHeight: '1.375', width: '100%' }}>
+          <h4 style={{ fontWeight: '400' }}>{album}</h4>
+          <h3 style={{ fontWeight: '600' }}>{name}</h3>
+          <p style={{ opacity: '1', color: 'color: rgba(55, 65, 81, 1)' }}>{artist}</p>
+        </span>
+      </div>
+    </>
   );
 };
 
@@ -31,7 +34,8 @@ export default forwardRef(({ onSelect, access_token, ...rest }, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const debouncedSearchTerm = useDebounce(searchTerm, 700);
 
-  console.log(debouncedSearchTerm === '');
+  access_token =
+    'BQCAtX2sPoGFo1O75B60f9NvdhYckP0XpyMehpUUT91QiqNGuFD181REpGMCfyZGf5FjuJQP1iQZitTlHHjQ-D6VkAc6Da5XGPIg1jkoLDZDIGMH7OUPrgNRNYi3DNHYCZ1cXXM';
 
   const { data, _, loading: searchInFlight } = useAxios(
     debouncedSearchTerm === '' && !access_token
@@ -40,7 +44,7 @@ export default forwardRef(({ onSelect, access_token, ...rest }, ref) => {
           method: 'get',
           url: `https://api.spotify.com/v1/search?${encodeURI(
             `q=${debouncedSearchTerm}`
-          )}&type=track`,
+          )}&type=track&limit=7`,
           headers: {
             Authorization: `Bearer ${access_token}`,
           },
@@ -52,7 +56,16 @@ export default forwardRef(({ onSelect, access_token, ...rest }, ref) => {
   let results;
 
   if (data) {
-    results = data?.slice(0, 5).map((x) => x);
+    results = [];
+    data['tracks']['items'].forEach((item) => {
+      results.push({
+        artist: item['album']['artists'][0]['name'],
+        image: item['album']['images'][0]['url'],
+        album: item['album']['name'],
+        name: item['name'],
+        uri: item['uri'],
+      });
+    });
   }
 
   if (!results) {
@@ -75,6 +88,7 @@ export default forwardRef(({ onSelect, access_token, ...rest }, ref) => {
       <form
         style={{
           zIndex: '40',
+          borderRadius: '4px',
           background: 'white',
           position: open ? 'static' : 'relative',
           top: open ? '0px' : '',
@@ -141,8 +155,10 @@ export default forwardRef(({ onSelect, access_token, ...rest }, ref) => {
             style={{
               display: open ? 'block' : 'none',
               position: open ? 'absolute' : '',
-              width: open ? '100%' : '',
+              width: open ? '365px' : '',
+              color: 'black',
               height: open ? 'auto' : '',
+              zIndex: '50',
               borderWidth: '1px',
               borderColor: 'rgba(209, 213, 219, 1)',
               backgroundColor: 'white',
