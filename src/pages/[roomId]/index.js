@@ -11,18 +11,14 @@ const Room = () => {
   const inputRef = useRef();
   let location = useLocation();
   var [roomId, setRoomId] = useState(null);
-  var [access_code, setAccessCode] = useState('');
+  var [access_token, setAccessToken] = useState('');
   var [currentSong, setCurrentSong] = useState('2Lt2OCMsNF0DefG5H1NOqc');
-
-  // TODO: get access_token from robin stuff
-  var access_token =
-    'BQDuvYrH_s7VaTxroMaI7fXlXgwLet9DdJwdm2DohmFIB9Nzvoj8-jsCBKZ2-D6O4v4YD8Fsey0VQO9BVDiOUxj81lSw4TM8RlUqZy8chbHqK27HGQzMhMu5xfS-T4tciB3eW1ZAGw';
 
   // after "page" component loads, check location
   useEffect(() => {
     if (location) {
       setRoomId(location.pathname.split('/')[2].split('?')[0]);
-      setAccessCode(location.pathname.split('/')[2].split('?')[1]);
+      setAccessToken(location.pathname.split('/')[2].split('?')[1]);
     }
   }, [location]);
 
@@ -42,6 +38,7 @@ const Room = () => {
           placeholder="Search for song..."
         />
       </Grid>
+
       <Grid item>
         <WebPlayer access_token={access_token} songId={currentSong.id} />
       </Grid>
