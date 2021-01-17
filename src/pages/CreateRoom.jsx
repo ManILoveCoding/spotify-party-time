@@ -30,7 +30,7 @@ const CreateRoom = () => {
       console.log(accessCode);
       console.log('here');
       // get user info with access code
-      getUserInfo();
+      // getUserInfo();
 
       // sign user in firestore
 
