@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { Button, ThemeProvider } from '@material-ui/core';
 
-import OTPInput from '../custom-components/OTPInput';
+import OTPInput from '../components/otp-input';
 import './Home.css';
 import { createMuiTheme } from '@material-ui/core/styles';
 import axios from 'axios';

@@ -40,12 +40,10 @@ const CreateRoom = () => {
       // THIS IS NOT WORKING
       axios('https://accounts.spotify.com/api/token', {
         method: 'post',
-        data: {
+        params: {
           grant_type: 'authorization_code',
           code: code,
           redirect_uri: redirectUrl,
-        },
-        params: {
           client_id: clientId,
           client_secret: clientSecret,
         },
