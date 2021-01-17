@@ -9,7 +9,7 @@
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:creator" content="@tyloben" />
     <meta property="og:title" content="Spotify Party Time" />
-    <meta property="og:description" content="Throw a party, it is time. To party. spotify time." />
+    <meta property="og:description" content="Throw a party, it is time. To party. spotify time. DO NOT GATHER IN LARGE GROUPS OR I WILL EAT YOU" />
     <meta
       property="og:image"
       content="https://cdn.vox-cdn.com/thumbor/ASv6gmp_KVlmIZrRAx-qH0zo0jw=/0x0:2040x1360/1400x933/filters:focal(857x517:1183x843):no_upscale()/cdn.vox-cdn.com/uploads/chorus_image/image/66547782/acastro_180213_1777_0001.0.jpg"
@@ -42,5 +42,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+  
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="/__/firebase/8.2.3/firebase-app.js"></script>
+  
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="/__/firebase/8.2.3/firebase-analytics.js"></script>
+  
+    <!-- Add Firebase products that you want to use -->
+    <script src="/__/firebase/8.2.3/firebase-auth.js"></script>
+    <script src="/__/firebase/8.2.3/firebase-firestore.js"></script>
+    
   </body>
+  
 </html>
