@@ -1,15 +1,19 @@
 @font-face {
-  font-family: 'spotify-circular';
-  src: local('spotify-circular'), url(../fonts/CircularSpotifyTxT-Black.ttf) format('ttf');
+
+  font-family: "spotify-circular";
+  src: local("spotify-circular"), url(../fonts/CircularSpotifyTxT-Black.ttf) format("ttf");
+
 }
 
 html body {
   background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
-  font-family: 'spotify-circular', Helvetica, Arial, sans-serif;
+  font-family: "spotify-circular", Helvetica, Arial, sans-serif;
   width: auto;
   margin: auto;
   text-align: center;
+  margin-top: 300px;
+
 }
 
 .otpInput {
@@ -26,6 +30,7 @@ html body {
 .otpInput:focus {
   outline: none !important;
 }
+
 
 .button {
   font-family: 'spotify-circular', Helvetica, Arial, sans-serif !important;
