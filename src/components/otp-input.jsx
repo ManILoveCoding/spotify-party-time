@@ -40,7 +40,7 @@ export function OTPInputComponent(props) {
     [isNumberInput]
   );
 
-  // Change OTP value at focussing input
+  // Change OTP value at focusing input
   const changeCodeAtFocus = useCallback(
     (str) => {
       const updatedOTPValues = [...otpValues];
@@ -90,7 +90,7 @@ export function OTPInputComponent(props) {
     [changeCodeAtFocus, focusNextInput, getRightValue]
   );
 
-  // Hanlde onBlur input
+  // Handle onBlur input
   const onBlur = useCallback(() => {
     setActiveInput(-1);
   }, []);

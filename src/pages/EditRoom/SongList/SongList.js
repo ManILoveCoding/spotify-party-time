@@ -4,26 +4,26 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage';
 
 function SongList(props) {
 
-    const { queueId } = props;
+    const { roomId } = props;
 
-    const [ queuedSongs, setQueuedSongs ] = useState([]);
+    const [ roomSongs, setRoomSongs ] = useState([]);
     const [ error, setError ] = useState();
 
-    // Use an effect hook to subscribe to the queued songs stream and
+    // Use an effect hook to subscribe to the Room songs stream and
     // automatically unsubscribe when the component unmounts.
     useEffect(() => {
-        const unsubscribe = FirestoreService.streamQueuedSongs(queueId, {
+        const unsubscribe = FirestoreService.streamRoomSongs(roomId, {
             next: querySnapshot => {
-                const updatedQueuedSongs = 
+                const updatedRoomSongs = 
                     querySnapshot.docs.map(docSnapshot => docSnapshot.data());
-                setQueuedSongs(updatedQueuedSongs);
+                setRoomSongs(updatedRoomSongs);
             },
-            error: () => setError('queued-song-get-fail')
+            error: () => setError('Room-song-get-fail')
         });
         return unsubscribe;
-    }, [queueId, setQueuedSongs]);
+    }, [roomId, setRoomSongs]);
 
-    const songElements = queuedSongs
+    const songElements = roomSongs
         .map((song, i) => <div key={i}>{song.name}</div>);
 
     return (

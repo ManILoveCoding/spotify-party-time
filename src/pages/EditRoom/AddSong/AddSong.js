@@ -6,7 +6,7 @@ import ErrorMessage from '../../../components/ErrorMessage/ErrorMessage'
 
 function AddSong(props) {
 
-    const { queueId, userId } = props;
+    const { roomId, userId } = props;
 
     const [error, setError] = useState('');
 
@@ -20,7 +20,7 @@ function AddSong(props) {
             return;
         }
 
-        FirestoreService.addSongToQueue(songDesc, queueId, userId)
+        FirestoreService.addSongToRoom(songDesc, roomId, userId)
             .then(() => document.addItemForm.reset())
             .catch(reason => {
                 if (reason.message === 'duplicate-item-error') {
@@ -33,7 +33,7 @@ function AddSong(props) {
 
     return (
         <form name="addItemForm">
-            <h3>Can You Queue...</h3>
+            <h3>Can You queue...</h3>
             <input type="text" name="songDesc" />
             <button type="submit" onClick={addSong}>Add</button>
             <ErrorMessage errorCode={error}></ErrorMessage>

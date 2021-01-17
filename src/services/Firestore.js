@@ -16,14 +16,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-
 //observer registered in the onAuthStateChanged triggers, users accout data can be accessed from User object (which we do in App.js)
 export const authenticateAnonymously = () => {
     return firebase.auth().signInAnonymously();
 };
-//creates a new queue collection in the database with time created, user name of creator, and user ID of creator as items
-export const createQueue = (userName, userId)=>{
-    return db.collection('queues')
+//creates a new room collection in the database with time created, user name of creator, and user ID of creator as items
+export const createRoom = (userName, userId)=>{
+    return db.collection('rooms')
     .add({
         created: firebase.firestore.FieldValue.serverTimestamp(),
         createdBy: userId,
@@ -35,54 +34,54 @@ export const createQueue = (userName, userId)=>{
     });
 };
 
-//returns ID of queue
-export const getQueue = queueId => {
-    return db.collection('queues')
-    .doc(queueId)
+//returns ID of room
+export const getRoom = roomId => {
+    return db.collection('rooms')
+    .doc(roomId)
     .get();
 };
 
-//returns collection 'songs' in a given queue
-export const getQueuedSongs = queueId=> {
-    return db.collection('queues')
-    .doc(queueId)
+//returns collection 'songs' in a given room
+export const getRoomSongs = roomId=> {
+    return db.collection('rooms')
+    .doc(roomId)
     .collection('songs')
     .get();
 };
 
-//used by SongList.js to list the songs in a queue
-export const streamQueuedSongs = (queueId, observer) => {
-    return db.collection('queues')
-    .doc(queueId)
+//used by SongList.js to list the songs in a room
+export const streamRoomSongs = (roomId, observer) => {
+    return db.collection('rooms')
+    .doc(roomId)
     .collection('songs')
     .orderBy('created')
     .onSnapshot(observer);
 };
 
 //unused function
-export const getUsers = queueId => {
-    return db.collection('queues')
-    .doc(queueId)
+export const getUsers = roomId => {
+    return db.collection('rooms')
+    .doc(roomId)
     .collection('users')
     .get();
 }
 //unused function
-export const streamUsersInQueue = (queueId, observer) => {
-    return db.collection('queues')
-    .doc(queueId)
+export const streamUsersInroom = (roomId, observer) => {
+    return db.collection('rooms')
+    .doc(roomId)
     .collection('users')
     .orderBy('joined')
     .onSnapshot(observer);
 };
 //unused function
-export const addUserToQueue = (userName, queueId, userId) => {
-    return getUsers(queueId)
+export const addUserToroom = (userName, roomId, userId) => {
+    return getUsers(roomId)
         .then(querySnapshot =>querySnapshot.docs)
-        .then(usersInQueue => usersInQueue.find(user => user.data().userId === userName))
+        .then(usersInroom => usersInroom.find(user => user.data().userId === userName))
         .then(matchingUser => {
             if(!matchingUser) {
-                return db.collection('queues')
-                    .doc(queueId)
+                return db.collection('rooms')
+                    .doc(roomId)
                     .collection('users')
                     .add({
                         userId: userId,
@@ -94,14 +93,14 @@ export const addUserToQueue = (userName, queueId, userId) => {
         });
 };
 //adds string song to the collection songs, with ID of user who added it as an item, and a timestamp
-export const addSongToQueue = (song, queueId, userId) => {
-    return getQueuedSongs(queueId)
+export const addSongToRoom = (song, roomId, userId) => {
+    return getRoomSongs(roomId)
         .then(querySnapshot => querySnapshot.docs)
-        .then(queuedSongs => queuedSongs.find(queuedSong => queuedSong.data().name.toLowerCase() === song.toLowerCase()))
+        .then(roomSongs => roomSongs.find(roomSong => roomSong.data().name.toLowerCase() === song.toLowerCase()))
         .then(addSong => {
 
-            return db.collection('queues')
-            .doc(queueId)
+            return db.collection('rooms')
+            .doc(roomId)
             .collection('songs')
             .add({
                 name: song,
