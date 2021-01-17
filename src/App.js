@@ -1,15 +1,15 @@
-import Router from './routes';
-import { BrowserRouter } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import { ThemeProvider } from '@material-ui/core/styles';
-import theme from './theme';
-
 import React, { useState, useEffect } from 'react';
+
 import * as FirestoreService from './services/Firestore';
+
+import CreateQueue from './pages/CreateQueue/CreateQueue';
+//import JoinQueue from './pages/JoinQueue/JoinQueue';
+import EditQueue from './pages/EditQueue/EditQueue';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 
 import useQueryString from './hooks/useQueryString'
 
-const App = () => {
+function App() {
   
   const [user, setUser] = useState();
   const [userId, setUserId] = useState();
@@ -38,20 +38,40 @@ const App = () => {
     .catch(() => setError('anonymous-auth-failed'));
   }, [queueId, setQueueId]);
 
+  function onQueueCreate(queueId, userName) {
+    setQueueId(queueId);
+    setUser(userName);
+  };
+
+  function onCloseQueue() {
+    setQueueId();
+    setQueue();
+    setUser();
+  }
+
+  /*
+  function onSelectUser(userName) {
+    setUser(userName);
+    FirestoreService.getQueue(queueId)
+    .then(updatedQueue => setQueue(updatedQueue.data()))
+    .catch(() => setError('queue-get-fail'));
+  }*/
+
+  if(queue&& user) {
+    return <EditQueue {...{ queueId, user, onCloseQueue, userId}}></EditQueue>;
+  }/* else if(queue) {
+    return (
+      <div>
+        <ErrorMessage errorCode={error}></ErrorMessage>
+        <JoinQueue users={queue.users} {...{queueId, onSelectUser, onCloseQueue, userId}}></JoinQueue>
+      </div>
+    );
+  }*/
   return (
-    <ThemeProvider theme={theme}>
-      <Grid
-        container
-        spacing={4}
-        direction="column"
-        alignItems="center"
-        justify="center"
-        style={{ minHeight: '100vh' }}>
-        <BrowserRouter>
-          <Router />
-        </BrowserRouter>
-      </Grid>
-    </ThemeProvider>
+    <div>
+      <ErrorMessage errorCode={error}></ErrorMessage>
+      <CreateQueue onCreate={onQueueCreate} userId={userId}></CreateQueue>
+    </div>
   );
 };
 

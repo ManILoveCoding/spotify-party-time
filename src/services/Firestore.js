@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import "firebase/firestore";
 import "firebase/auth";
 
@@ -16,15 +16,20 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+export const authenticateAnonymously = () => {
+    return firebase.auth().signInAnonymously();
+};
+
 export const createQueue = (userName, userId)=>{
     return db.collection('queues')
     .add({
         created: firebase.firestore.FieldValue.serverTimestamp(),
         createdBy: userId,
-        users: [{
+        owner: userName,
+        /*users: [{
             userId: userId,
             name: userName
-        }]
+        }]*/
     });
 };
 
@@ -49,22 +54,56 @@ export const streamQueuedSongs = (queueId, observer) => {
     .onSnapshot(observer);
 };
 
-export const addUserToQueue = (userName, queueId, userId) => {
-    return db.collection('queue')
+export const getUsers = queueId => {
+    return db.collection('queues')
     .doc(queueId)
-    .update({
-        users: firebase.firestore.FieldValue.arrayUnion({
-            userId: userId,
-            name: userName
-        })
-    });
+    .collection('users')
+    .get();
+}
+
+export const streamUsersInQueue = (queueId, observer) => {
+    return db.collection('queues')
+    .doc(queueId)
+    .collection('users')
+    .orderBy('joined')
+    .onSnapshot(observer);
+};
+
+export const addUserToQueue = (userName, queueId, userId) => {
+    return getUsers(queueId)
+        .then(querySnapshot =>querySnapshot.docs)
+        .then(usersInQueue => usersInQueue.find(user => user.data().userId === userName))
+        .then(matchingUser => {
+            if(!matchingUser) {
+                return db.collection('queues')
+                    .doc(queueId)
+                    .collection('users')
+                    .add({
+                        userId: userId,
+                        name: userName,
+                        joined: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+            }
+            throw new Error('duplicate-user-error');
+        });
 };
 
 export const addSongToQueue = (song, queueId, userId) => {
     return getQueuedSongs(queueId)
-    .then(querySnapshot => querySnapshot.docs)
-    .then(queuedSongs => queuedSongs.find(queuedSong => queuedSong.data().name.toLowerCase() === song.toLowerCase()))
+        .then(querySnapshot => querySnapshot.docs)
+        .then(queuedSongs => queuedSongs.find(queuedSong => queuedSong.data().name.toLowerCase() === song.toLowerCase()))
+        .then(addSong => {
 
+            return db.collection('queues')
+            .doc(queueId)
+            .collection('songs')
+            .add({
+                name: song,
+                created: firebase.firestore.FieldValue.serverTimestamp(),
+                createdBy: userId
+            });
+
+        });
 };
 
 
