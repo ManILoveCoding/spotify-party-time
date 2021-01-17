@@ -65,7 +65,7 @@ const CreateRoom = () => {
   return (
     <div>
       <h1>Hello</h1>
-      <input type="text" onClick={getUserInfo} />
+      <input type="text" />
     </div>
   );
 };
